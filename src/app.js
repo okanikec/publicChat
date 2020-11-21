@@ -4,7 +4,7 @@ const express = require ('express')
 const pagesRouter = require('./routers/pages')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
-//const { generateMessage } = require('./utils/messages')
+const { generateMessage, generateLocationMessage } = require('./utils/messages')
 const hbs = require('hbs')
 
 const app = express()
@@ -31,8 +31,10 @@ app.use(pagesRouter)
 io.on('connection', (socket) => {
     console.log('New WebSocket Connection')
 
-    // send "welcome" message to new connected clients 
-    socket.emit('message', 'Welcome!')
+    // // send "welcome" message to new connected clients 
+    // socket.emit('message', 'Welcome!')
+
+    socket.emit('message', generateMessage('welcome!'))
 
     // send message to all clients except new user
     socket.broadcast.emit('message', 'A new user user has joined!')
@@ -51,7 +53,7 @@ io.on('connection', (socket) => {
 
     //listen to message from client with gps coordinates and broadcast
     socket.on('sendLocation', (coords, callback) => {
-        io.emit('locationMessage', `https://google.com/maps?q=${coords.latitude},${coords.longitude}`)
+        io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${coords.latitude},${coords.longitude}`))
         callback()
     })
 
