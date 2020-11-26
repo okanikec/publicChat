@@ -19,6 +19,12 @@ router.get('/chat', (req, res ) => {
         name: 'Ikechukwu Okanu'
     })
 })
+
+router.get('/contact', (req, res ) => {
+    res.render('contact', {
+        name: 'Ikechukwu Okanu'
+    })
+})
    
 
 router.get('*', (req, res ) => {
